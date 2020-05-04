@@ -1,0 +1,66 @@
+{% extends 'mainpage.html' %}
+
+{% block searchtitle %}
+
+Title : {{ bookdetail[0][1] }}
+
+{% endblock %}
+
+{% block searchquery %}
+
+<p></p>
+<p></p>
+<h4>Author : {{ bookdetail[0][2]}} </h4>
+<p></p>
+<p></p>
+<h4>Year of Publication : {{ bookdetail[0][3]}} </h4>
+<p></p>
+<p></p>
+<h4>ISBN : {{ bookdetail[0][0]}} </h4>
+<p></p>
+<h4>Average rating : {{ avgrating }}</h4>
+<p></p>
+<h4>Review Count : {{ ratcount }}</h4>
+
+{% endblock %}
+
+{% block commentblk %}
+<div style="margin-top: 10%"></div>
+<h2>Comments</h2>
+{% if commentexist == True %}
+	<h4 style="color : red;">Your comment already exists</h4>
+{% endif %}
+<div>
+	{% if iscomment == True %}
+		{% for comment in commentdata %}
+			<div style="border: 1px solid green; margin-top: 10px; margin-bottom: 10px; padding: 10px;">
+				<h4>"{{ comment[2] }}"</h4>
+				<h6>Rating : {{ comment[3] }}</h6>
+				<p>By - {{ comment[1] }}</p>
+
+			</div>
+		{% endfor %}
+	{% else %}
+		<h4>No Comment for this book</h4>
+	{% endif %}
+
+		<h3>Add Comment</h3>
+
+		<form class="form-inline" method="POST" action="/mainpage/bookdetail/{{ bookdetail[0][0] }}/commentpublish" >
+			<input type="text" name="comtoser" class="form-control mr-sm-2" placeholder="Enter comment" required="required">
+			<select required="required" name="reviewofbook" style="margin : 5px">
+				<option></option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+
+			<button class="btn btn-outline-success my-2 my-sm-0" >Publish</button>
+		</form>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Book Review Site</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/bootstrap.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/mainpagec.css') }}">
+</head>
+<body>
+	<nav class="navbar navbar-light bg-success" >
+  		<span class="navbar-brand mb-0 h1" style="color: white">Welcome!</span>
+
+  		<a href="{{ url_for('logoutfunc') }}" style="color: white;">Logout</a>
+	</nav>
+
+	<div class="searchbar">
+		<form class="form-inline" method="POST" action="{{ url_for('searchfunc') }}" >
+    		<input class="form-control mr-sm-2" type="search" placeholder="ISBN, Name or anything" aria-label="Search" name="searchdata">
+    		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  		</form>
+	</div>
+
+	<div class="jumbotron" style="background:transparent !important">
+		<h2 class="heading">{% block searchtitle %}{% endblock %}</h2>
+
+		<div>
+			{% block searchquery %}
+			{% endblock %}
+			
+			{% block commentblk %}
+			{% endblock %}
+		</div> 
+
+	</div>
+
+</body>
+</html>

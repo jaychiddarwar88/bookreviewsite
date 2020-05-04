@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/bootstrap.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/loginpagec.css') }}">
+</head>
+<body>
+	<h2 class="heading">Book Review Site</h2>
+	<div class="jumbotron loginform" >
+		<form action="{{ url_for('makeregis') }}" method="POST">
+		  <div class="form-group">
+		  	<label>Your Name</label>
+		  	<input type="text" name="regname" class="form-control" placeholder="Enter Name" required="required">
+		  </div>
+
+		  <div class="form-group">
+		    <label for="exampleInputEmail1">Email address</label>
+		    <input type="email" name="regemail" class="form-control" placeholder="Enter email" required="required">
+		  </div>
+
+		  <div class="form-group">
+		    <label for="exampleInputPassword1">Password</label>
+		    <input type="password" name="regpassword" class="form-control" placeholder="Password" required="required">
+		  </div>
+		  <button type="submit" class="btn btn-success">Register</button>
+		</form>
+
+		<div style="margin-top: 10px">
+			<a href="{{ url_for('loginfunc') }}" >click here to Login</a>
+		</div>
+		
+	</div>
+
+</body>
+</html>

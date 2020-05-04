@@ -1,0 +1,31 @@
+{% extends 'mainpage.html' %}
+
+{% block searchtitle %}
+Search Result
+{% endblock %}
+
+{% block searchquery %}
+{% if totalresult|length > 0 %}
+<table>
+				<tr>
+					<th style="margin: 10px; padding: 5px;">ISBN</th>
+					<th style="margin: 10px; padding: 5px;">Title</th>
+					<th style="margin: 10px; padding: 5px;">Author</th>
+					<th style="margin: 10px; padding: 5px;">Year</th>
+					<th style="margin: 10px; padding: 5px;">Details</th>
+				</tr>
+				{% for resvar in totalresult %} 
+					<tr>
+						<th style="margin: 10px; padding: 5px;">{{ resvar[0] }}</th>
+						<th style="margin: 10px; padding: 5px;">{{ resvar[1] }}</th>
+						<th style="margin: 10px; padding: 5px;">{{ resvar[2] }}</th>
+						<th style="margin: 10px; padding: 5px;">{{ resvar[3] }}</th>
+						<th style="margin: 10px; padding: 5px;"><a href="/mainpage/bookdetail/{{ resvar[0] }}">details</a></th>
+					</tr>
+				{% endfor %}
+			</table>
+{% else %}
+<h2>No Result Found</h2>
+{% endif %}
+
+{% endblock %}
