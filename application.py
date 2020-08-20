@@ -10,9 +10,11 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(12)
 
+databaseurl = "postgres://jqqmtndvmiyhup:9ef81e66158b3d30c3cf94681b50ebc1be3b390e5a1c58d5c4fdea2d1a6bbcde@ec2-54-159-112-44.compute-1.amazonaws.com:5432/de5r9a4l2guvlm"
+
 # Check for environment variable
-if not os.getenv("DATABASE_URL"):
-    raise RuntimeError("DATABASE_URL is not set")
+# if not os.getenv("DATABASE_URL"):
+#     raise RuntimeError("DATABASE_URL is not set")
 
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
@@ -20,7 +22,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Set up database
-engine = create_engine(os.getenv("DATABASE_URL"))
+engine = create_engine(databaseurl)
 db = scoped_session(sessionmaker(bind=engine))
 
 
@@ -153,7 +155,10 @@ def apifunc(isbn):
 	title = searchdataresult[0][1]
 	author = searchdataresult[0][2]
 	yearpub = searchdataresult[0][3]
-	avgrate = float(avgreview[0][0])
+	avgrate = 0
+	if avgreview[0][0] is not None:
+
+		avgrate = float(avgreview[0][0])
 	ratecnt = ratingcount[0][0]
 
 	return jsonify(title = title, author = author, year = yearpub, 

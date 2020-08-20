@@ -1,4 +1,5 @@
-Flask
-Flask-Session
-psycopg2-binary
-SQLAlchemy
+flask
+sqlalchemy
+requests
+gunicorn
+Jinja2
