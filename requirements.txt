@@ -4,3 +4,5 @@ requests
 gunicorn
 Jinja2
 Flask-Session
+psycopg2-binary
+psycopg2
