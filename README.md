@@ -6,7 +6,7 @@ Step 0 : install packages from requirement.txt
 
 IF you want to run on my database then follow step 1 below
 
-Step 1: Set 'DATABASE_URL' as environment variable and url as 'postgres://jqqmtndvmiyhup:9ef81e66158b3d30c3cf94681b50ebc1be3b390e5a1c58d5c4fdea2d1a6bbcde@ec2-54-159-112-44.compute-1.amazonaws.com:5432/de5r9a4l2guvlm'
+Step 1: DataBase url included in code
 
 Else if you want to create own database then follow step 1 below :
 
