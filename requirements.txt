@@ -1,4 +1,6 @@
 flask
+Flask
+gunicorn
 sqlalchemy
 requests
 Jinja2
