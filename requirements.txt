@@ -1,7 +1,5 @@
-flask
 sqlalchemy
 requests
-gunicorn
 Jinja2
 Flask-Session
 psycopg2-binary

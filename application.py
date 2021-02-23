@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(12)
 
-databaseurl = "postgres://jqqmtndvmiyhup:9ef81e66158b3d30c3cf94681b50ebc1be3b390e5a1c58d5c4fdea2d1a6bbcde@ec2-54-159-112-44.compute-1.amazonaws.com:5432/de5r9a4l2guvlm"
+databaseurl = "postgres://ggvaoaanrixbcs:49cc6a05be454d0776916eb869eb9ee2b2c4f68bc30e17540a45d24591a55a3c@ec2-54-74-156-137.eu-west-1.compute.amazonaws.com:5432/dn4dag9u2limp"
 
 # Check for environment variable
 # if not os.getenv("DATABASE_URL"):
@@ -47,7 +47,7 @@ def checklogin():
 	email = request.form.get("loginemail")
 	password = request.form.get("loginpassword")
 	
-	data = db.execute('select * from logincreden where email = :lemail and password = :lpassword', 
+	data = db.execute('select * from logincreden where remail = :lemail and regpassword = :lpassword', 
 		{"lemail": email, "lpassword" : password}).fetchall()
 	if len(data) > 0:
 		session['loggedin'] = True
@@ -67,7 +67,7 @@ def makeregis():
 	remail = request.form.get('regemail')
 	rpassword = request.form.get('regpassword')
 
-	checkuser = db.execute('SELECT * FROM logincreden WHERE email = :regemail', 
+	checkuser = db.execute('SELECT * FROM logincreden WHERE remail = :regemail', 
 		{"regemail" : remail}).fetchall()
 	print(checkuser)
 	if len(checkuser) > 0:
@@ -103,29 +103,30 @@ def searchfunc():
 def bookdetfunc(bookisbn):
 	bookdets = db.execute('SELECT * FROM bookdata WHERE isbn = :bisbn ',
 		{"bisbn": bookisbn}).fetchall()
-	commentdets = db.execute('SELECT * FROM commentdata WHERE commentfor = :cisbn',
+	commentdets = db.execute('SELECT * FROM commentdata WHERE inisbn = :cisbn',
 		{"cisbn" : bookisbn}).fetchall()
 	iscomment = True
-	response = requests.get("https://www.goodreads.com/book/review_counts.json", 
-		params = {"key": "Ex12C68xR5Hk5MNcU3C66w", "isbns": bookisbn})
-	response = response.json()
-	result = response['books'][0]
-	ratcount = result["work_ratings_count"]
-	avgrating = result["average_rating"]
+	# response = requests.get("https://www.goodreads.com/book/review_counts.json", 
+	# 	params = {"key": "Ex12C68xR5Hk5MNcU3C66w", "inisbn": bookisbn})
+	# response = response.json()
+	# result = response['books'][0]
+	# ratcount = result["work_ratings_count"]
+	# avgrating = result["average_rating"]
 	if len(commentdets) == 0:
 		iscomment = False
-	print(bookdets)
+	print(commentdets)
 	return render_template("bookpage.html", bookdetail = bookdets, 
 		commentdata = commentdets, iscomment = iscomment, 
-		commentexist = session['combyuserexist'], ratcount = ratcount , 
-		avgrating = avgrating)
+		commentexist = session['combyuserexist'])
+		# ,ratcount = ratcount , 
+		# avgrating = avgrating)
 
 
 @app.route("/mainpage/bookdetail/<string:isbnbook>/commentpublish", methods= ['POST'])
 def commentpubfunc(isbnbook):
 	username = session.get('username')
 	commisbn = isbnbook
-	checkcomment = db.execute('SELECT * FROM commentdata WHERE commentfor = :cisbnbook AND username = :cusername',
+	checkcomment = db.execute('SELECT * FROM commentdata WHERE inisbn = :cisbnbook AND inusername = :cusername',
 		{"cisbnbook": commisbn, "cusername" : username}).fetchall()
 	session['combyuserexist'] = False 
 	if len(checkcomment) > 0:
@@ -147,9 +148,9 @@ def commentpubfunc(isbnbook):
 def apifunc(isbn):
 	searchdataresult = db.execute("SELECT * FROM bookdata WHERE isbn = :data",
 		 	{"data": isbn}).fetchall()
-	avgreview = db.execute('SELECT AVG(review) FROM commentdata WHERE commentfor = :cisbnbook',
+	avgreview = db.execute('SELECT AVG(inreview) FROM commentdata WHERE inisbn = :cisbnbook',
 		{"cisbnbook": isbn}).fetchall()
-	ratingcount = db.execute('SELECT COUNT(review) FROM commentdata WHERE commentfor = :cisbnbook',
+	ratingcount = db.execute('SELECT COUNT(inreview) FROM commentdata WHERE inisbn = :cisbnbook',
 		{"cisbnbook": isbn}).fetchall()
 	isbnno = searchdataresult[0][0]
 	title = searchdataresult[0][1]
