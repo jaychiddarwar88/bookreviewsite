@@ -10,11 +10,9 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(12)
 
-databaseurl = "postgres://ggvaoaanrixbcs:49cc6a05be454d0776916eb869eb9ee2b2c4f68bc30e17540a45d24591a55a3c@ec2-54-74-156-137.eu-west-1.compute.amazonaws.com:5432/dn4dag9u2limp"
-
 # Check for environment variable
-# if not os.getenv("DATABASE_URL"):
-#     raise RuntimeError("DATABASE_URL is not set")
+if not os.getenv("DATABASE_URL"):
+    raise RuntimeError("DATABASE_URL is not set")
 
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
@@ -22,7 +20,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Set up database
-engine = create_engine(databaseurl)
+engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
