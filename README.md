@@ -6,7 +6,7 @@ Step 0 : install packages from requirement.txt
 
 IF you want to run on my database then follow step 1 below
 
-Step 1: DataBase url included in code
+Step 1: DataBase url should be in environment element as 'DATABASE_URL'
 
 Else if you want to create own database then follow step 1 below :
 
